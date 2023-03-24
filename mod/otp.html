@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>otp</title>
+</head>
+<body>
+<table border="1">
+  <tr>
+    <td>ID</td>
+    <td>URL</td>
+    <td>Intro</td>
+    <td>Uname</td>
+    <td>Pwd</td>
+  </tr>
+  {{range .}}
+  <tr>
+    <td>{{.Id}}</td>
+    <td>{{.Url}}</td>
+    <td>{{.Intro}}</td>
+    <td>{{.Uname}}</td>
+    <td>{{.Pwd}}</td>
+  </tr>
+  {{end}}
+</table>
+</body>
+</html>

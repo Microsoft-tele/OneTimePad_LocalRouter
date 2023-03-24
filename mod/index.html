@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Micros0ft首页</title>
+</head>
+<body>
+{{template "otp.html" .OtpObjs}}
+<p>条目增加</p>
+<form action="http://localhost:8080/encrypt" method="post">   <!--TODO 修改为本地加密地址-->
+    <input type="text" value="{{.Email}}" name="email" hidden="hidden">
+    <table border="1">
+        <tr>
+            <td>id标识</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>网址</td>
+            <td><input type="text" name="url" required></td>
+        </tr>
+        <tr>
+            <td>网站描述</td>
+            <td><input type="text" name="intro" required></td>
+        </tr>
+        <tr>
+            <td>账号</td>
+            <td><input type="text" name="uname" required></td>
+        </tr>
+        <td>密码</td>
+        <td><input type="text" name="pwd" required></td>
+        </tr>
+    </table>
+    <input type="submit" value="添加">
+</form>
+</body>
+</html>
