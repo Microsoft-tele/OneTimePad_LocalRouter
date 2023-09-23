@@ -1,0 +1,14 @@
+{
+  "project_path": "C:\\Users\\Nahida\\Desktop\\git\\OneTimePad_LocalRouter",
+  "paths": {
+    "otp_path": "/OtpUtils/otp.otp",
+    "start_index": "/startIndex",
+    "rsa_pri_path": "/RSAUtils/rsa/keys/pri.pem",
+    "rsa_pub_path": "/RSAUtils/rsa/keys/pub.pem",
+
+    "dataset_1M_path": "/experiment/dataset_1M.csv",
+    "dataset_10M_path": "/experiment/dataset_10M.csv",
+    "dataset_100M_path": "/experiment/dataset_100M.csv",
+    "dataset_1000M_path": "/experiment/dataset_1000M.csv"
+  }
+}

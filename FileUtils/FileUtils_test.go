@@ -25,3 +25,7 @@ func TestReadFileContent(t *testing.T) {
 		fmt.Println(line)
 	}
 }
+
+func TestGetProjectPath(t *testing.T) {
+	GetProjectPath()
+}

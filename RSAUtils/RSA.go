@@ -1,14 +1,16 @@
 package RSAUtils
 
 import (
+	"OneTimePadLocalRouter/config"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
 	"os"
+	"sync"
 )
 
-// 生成RSA私钥和公钥，保存到文件中
+// GenerateRSAKey 生成RSA私钥和公钥，保存到文件中
 func GenerateRSAKey(bits int) {
 	//NowTime := strings.Split(time.Now().String(), " ")[:2]
 	//home := ShellUtils.GetOutFromStdout("echo $HOME")[0]
@@ -23,7 +25,7 @@ func GenerateRSAKey(bits int) {
 	X509PrivateKey := x509.MarshalPKCS1PrivateKey(privateKey)
 	//使用pem格式对x509输出的内容进行编码
 	//创建文件保存私钥
-	privateKeyPath := "..\\RSAUtils\\rsa\\keys\\" + "pri.pem" // 需要改进
+	privateKeyPath := config.MyConfigParams.Paths.RsaPriPath // 需要改进
 	//fmt.Println("PrivateKeyPath:", privateKeyPath)
 	privateFile, err := os.Create(privateKeyPath)
 	if err != nil {
@@ -45,7 +47,7 @@ func GenerateRSAKey(bits int) {
 	//pem格式编码
 	//创建用于保存公钥的文件
 
-	publicKeyPath := "..\\RSAUtils\\rsa\\keys\\" + "pub.pem" // 需要改进
+	publicKeyPath := config.MyConfigParams.Paths.RsaPubPath // 需要改进
 	publicFile, err := os.Create(publicKeyPath)
 	if err != nil {
 		panic(err)
@@ -57,8 +59,13 @@ func GenerateRSAKey(bits int) {
 	pem.Encode(publicFile, &publicBlock)
 }
 
-// RSA加密
-func RSA_Encrypt(plainText []byte, path string) []byte {
+var fileLock sync.Mutex // 声明一个互斥锁
+var parseLock sync.Mutex
+
+// RsaEncrypt RSA加密
+func RsaEncrypt(plainText []byte, path string) []byte {
+	fileLock.Lock()         // 在文件访问之前获取锁
+	defer fileLock.Unlock() // 在函数返回前释放锁
 	//打开文件
 	file, err := os.Open(path)
 	if err != nil {
@@ -72,6 +79,9 @@ func RSA_Encrypt(plainText []byte, path string) []byte {
 	//pem解码
 	block, _ := pem.Decode(buf)
 	//x509解码
+
+	parseLock.Lock()
+	defer parseLock.Unlock()
 	publicKeyInterface, err := x509.ParsePKIXPublicKey(block.Bytes)
 	if err != nil {
 		panic(err)
@@ -87,8 +97,8 @@ func RSA_Encrypt(plainText []byte, path string) []byte {
 	return cipherText
 }
 
-// RSA解密
-func RSA_Decrypt(cipherText []byte, path string) []byte {
+// RsaDecrypt RSA解密
+func RsaDecrypt(cipherText []byte, path string) []byte {
 	//打开文件
 	file, err := os.Open(path)
 	if err != nil {

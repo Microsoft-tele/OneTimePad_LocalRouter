@@ -1,7 +1,10 @@
 package CryptoUtils
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestName(t *testing.T) {
-	Encode("Lwj20020302")
+	fmt.Println(Decode(Encode("Lwj20020302;")))
 }
