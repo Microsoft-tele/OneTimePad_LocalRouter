@@ -2,8 +2,7 @@ package experiment
 
 import (
 	"OneTimePadLocalRouter/CryptoUtils"
-	"OneTimePadLocalRouter/RSAUtils"
-	"OneTimePadLocalRouter/config"
+	"OneTimePadLocalRouter/RsaFactory"
 	"fmt"
 	"github.com/go-gota/gota/dataframe"
 	"os"
@@ -24,7 +23,7 @@ func EncryptOtpList(filePath string) {
 	var wg sync.WaitGroup
 
 	// 限制同时运行的协程数量
-	maxConcurrent := 50 // 指定最大同时运行的协程数量
+	maxConcurrent := 100 // 指定最大同时运行的协程数量
 	sema := make(chan struct{}, maxConcurrent)
 
 	// 并发处理密码加密
@@ -61,6 +60,8 @@ func EncryptRsaList(filePath string) {
 	// 限制同时运行的协程数量
 	maxConcurrent := 50 // 指定最大同时运行的协程数量
 	sema := make(chan struct{}, maxConcurrent)
+	// Create RsaFactory
+	rsaFactory, _ := RsaFactory.NewRSAFactory(32)
 
 	// 并发处理密码RSA加密
 	for _, row := range pwdCol.Records() {
@@ -73,7 +74,7 @@ func EncryptRsaList(filePath string) {
 			}()
 			fmt.Println("Password:", password)
 			// RSAUtils.GenerateRSAKey(2048)
-			EncryptPwdByRsa := RSAUtils.RsaEncrypt([]byte(password), config.MyConfigParams.Paths.RsaPubPath)
+			EncryptPwdByRsa, _ := rsaFactory.EncryptWithNewKey([]byte(password))
 			fmt.Println("EncPwd:", EncryptPwdByRsa)
 		}(row[0])
 	}

@@ -27,7 +27,7 @@ def generate_dataset(num_rows):
     return df
 
 # 调用函数生成数据集，指定生成数据的条数
-for i in range(10):
-    dataset = generate_dataset(1_000_000)
-    print(dataset.head())
-    dataset.to_csv(f"./dataset_distributed_{i}M.csv", index=False)
+
+dataset = generate_dataset(1_000)
+print(dataset.head())
+dataset.to_csv(f"./dataset_0.1M.csv", index=False)

@@ -9,7 +9,7 @@ import (
 
 func TestEncryptOtpList(t *testing.T) {
 	startTime := time.Now()
-	EncryptOtpList(config.MyConfigParams.Paths.Dataset1mPath)
+	EncryptOtpList(config.MyConfigParams.Paths.Dataset01mPath)
 	endTime := time.Now()
 
 	elapsedTime := endTime.Sub(startTime)
@@ -31,16 +31,16 @@ func TestLog(t *testing.T) {
 
 func TestGetResult(t *testing.T) {
 	// 测量 EncryptOtpList 执行时间
-	otp, rsa, per := Demo(config.MyConfigParams.Paths.Dataset1mPath)
+	otp01, rsa01, per01 := Demo(config.MyConfigParams.Paths.Dataset01mPath)
+	otp1, rsa1, per1 := Demo(config.MyConfigParams.Paths.Dataset1mPath)
 	otp10, rsa10, per10 := Demo(config.MyConfigParams.Paths.Dataset10mPath)
 	otp100, rsa100, per100 := Demo(config.MyConfigParams.Paths.Dataset100mPath)
-	otp1000, rsa1000, per1000 := Demo(config.MyConfigParams.Paths.Dataset1000mPath)
 	fmt.Printf(",otp,rsa,per\n"+
 		"1M,%f,%f,%f\n"+
 		"10M%f,%f,%f\n"+
 		"100M%f,%f,%f\n"+
 		"1000M%f,%f,%f",
-		otp, rsa, per, otp10, rsa10, per10, otp100, rsa100, per100, otp1000, rsa1000, per1000)
+		otp01, rsa01, per01, otp1, rsa1, per1, otp10, rsa10, per10, otp100, rsa100, per100)
 }
 
 func Demo(filePath string) (float64, float64, float64) {
